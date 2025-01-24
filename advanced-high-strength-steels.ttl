@@ -3,10 +3,15 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
 @prefix emmo: <https://w3id.org/emmo#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
 @prefix chameo: <https://w3id.org/emmo/domain/characterisation-methodology/chameo#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix datacite: <http://purl.org/spar/datacite/> .
 @base <https://w3id.org/emmo/application/advanced-high-strength-steels#> .
 
 <https://w3id.org/emmo/application/advanced-high-strength-steels> rdf:type owl:Ontology ;
@@ -38,8 +43,8 @@
                                                                    owl:priorVersion "" ;
                                                                    owl:versionInfo "0.1.0" ;
                                                                    skos:hiddenLabel "Advanced High Strenght Steels testing ontology" ;
-                                                                   <http://xmlns.com/foaf/0.1/homepage> <https://github.com/emmo-repo/application-advanced-high-strength-steels"> ;
-                                                                   <http://xmlns.com/foaf/0.1/page> <https://github.com/emmo-repo/application-advanced-high-strength-steels"> .
+                                                                   <http://xmlns.com/foaf/0.1/homepage> <https://github.com/emmo-repo/application-advanced-high-strength-steels> ;
+                                                                   <http://xmlns.com/foaf/0.1/page> <https://github.com/emmo-repo/application-advanced-high-strength-steels> .
 
 #################################################################
 #    Annotation properties
@@ -145,28 +150,241 @@ skos:prefLabel rdf:type owl:AnnotationProperty .
 #    Classes
 #################################################################
 
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#AztecCrystal
+:AztecCrystal rdf:type owl:Class ;
+              rdfs:subClassOf chameo:CharacterisationSoftware ;
+              rdfs:label "AztecCrystal" ;
+              skos:prefLabel "AztecCrystal" ;
+              emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "AztecCrystal" .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#ConductiveResin
+:ConductiveResin rdf:type owl:Class ;
+                 rdfs:subClassOf chameo:Holder ;
+                 rdfs:label "ConductiveResin" ;
+                 skos:prefLabel "ConductiveResin" ;
+                 emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "Conductive embedding resin"@en .
+
+
 ###  https://w3id.org/emmo/application/advanced-high-strength-steels#ConductivityImprovement
 :ConductivityImprovement rdf:type owl:Class ;
-                         rdfs:subClassOf chameo:SamplePreparation ;
+                         rdfs:subClassOf chameo:SamplePreparation ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty chameo:hasSampleForPreparation ;
+                                           owl:someValuesFrom :SteelSample
+                                         ] ;
                          rdfs:label "ConductivityImprovement" ;
-                         skos:prefLabel "ConductivityImprovement" .
+                         skos:prefLabel "ConductivityImprovement" ;
+                         emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "On the top of polished sample, some carbon tape pieces were put around steel edges in order to improve conductivity."@en .
 
 
-###  https://w3id.org/emmo/application/advanced-high-strength-steels#GrindingPolishing
-:GrindingPolishing rdf:type owl:Class ;
-                   rdfs:subClassOf emmo:EMMO_2138677c_845a_4bc2_8be7_7b0a07b4777d ,
-                                   chameo:Polishing ;
-                   rdfs:label "GrindingPolishing" ;
-                   skos:prefLabel "GrindingPolishing" ;
-                   emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "The sample is polished with standard grinding papers and colloidal silica 40 nm is used as fi nisher. The goal is to prepare a polished sample removing as much as possible scratches. Moreover, sample size must have a dimension suitable for SEM chamber." .
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#CoolingTime
+:CoolingTime rdf:type owl:Class ;
+             rdfs:subClassOf emmo:EMMO_88967c93_894b_4e42_bc3c_c8517b255489 ;
+             rdfs:label "CoolingTime" ;
+             skos:prefLabel "CoolingTime" ;
+             emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "The cooling process duration to let a steel sample be cooled down until a certain temperature."@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#DP600ASteel
+:DP600ASteel rdf:type owl:Class ;
+             rdfs:subClassOf :SteelSample ;
+             rdfs:label "DP600ASteel" ;
+             skos:prefLabel "DP600ASteel" ;
+             emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "Ferritic-martensitic dual-phase steel made with BF-BOF"@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#DP600BSteel
+:DP600BSteel rdf:type owl:Class ;
+             rdfs:subClassOf :SteelSample ;
+             rdfs:label "DP600BSteel" ;
+             skos:prefLabel "DP600BSteel" ;
+             emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "Ferritic-martensitic dual-phase steel made with EAF process"@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#EBSDGrainsAnalysis
+:EBSDGrainsAnalysis rdf:type owl:Class ;
+                    rdfs:subClassOf chameo:ElectronBackscatterDiffraction ,
+                                    chameo:SampleInspection ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty emmo:EMMO_499e24a5_5072_4c83_8625_fe3f96ae4a8d ;
+                                      owl:someValuesFrom :SteelNanoindentation
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty chameo:hasSampleForInspection ;
+                                      owl:someValuesFrom :SteelSample
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty chameo:hasSampleInspectionParameter ;
+                                      owl:someValuesFrom emmo:EMMO_17b031fb_4695_49b6_bb69_189ec63df3ee
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty chameo:hasSampleInspectionParameter ;
+                                      owl:someValuesFrom emmo:EMMO_c995ae70_3b84_4ebb_bcfc_69e6a281bb88
+                                    ] ;
+                    rdfs:comment "Step size and speeds settings are set in function of region of interest features. Same material but different region of interests, they can interact in different ways."@en ;
+                    rdfs:label "EBSDGrainsAnalysis" ;
+                    skos:prefLabel "EBSD to find the position of grains and their relative phase/microstructure."@en ,
+                                   "EBSDGrainsAnalysis" .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#EBSDNanoindentationCorrelation
+:EBSDNanoindentationCorrelation rdf:type owl:Class ;
+                                rdfs:subClassOf chameo:DataPostProcessing ;
+                                rdfs:label "EBSDNanoindentationCorrelation" ;
+                                skos:prefLabel "EBSDNanoindentationCorrelation" ;
+                                emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "Both EBSD and nanoindentation dataframes were computed in R in order to correlate crystallographic and microstructural properties with mechanical ones. The goal is to assign mechanical properties for each phase/microstructure in steel sample take into account anisotropical contributes."@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#FB590ASteel
+:FB590ASteel rdf:type owl:Class ;
+             rdfs:subClassOf :SteelSample ;
+             rdfs:label "FB590ASteel" ;
+             skos:prefLabel "FB590ASteel" ;
+             emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "TRIP ferritic-bainitic steel made with BF-BOF process" .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#FB590BSteel
+:FB590BSteel rdf:type owl:Class ;
+             rdfs:subClassOf :SteelSample ;
+             rdfs:label "TRIP ferritic-bainitic steel made with EAF process"@en ,
+                        "FB590BSteel" ;
+             skos:prefLabel "FB590BSteel" .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#HeatingTime
+:HeatingTime rdf:type owl:Class ;
+             rdfs:subClassOf emmo:EMMO_88967c93_894b_4e42_bc3c_c8517b255489 ;
+             rdfs:label "HeatingTime" ;
+             skos:prefLabel "HeatingTime" ;
+             emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "The heating process duration to let a steel sample reach a certain temperature."@en .
 
 
 ###  https://w3id.org/emmo/application/advanced-high-strength-steels#HotMounting
 :HotMounting rdf:type owl:Class ;
-             rdfs:subClassOf chameo:Mounting ;
+             rdfs:subClassOf chameo:Mounting ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty emmo:EMMO_499e24a5_5072_4c83_8625_fe3f96ae4a8d ;
+                               owl:someValuesFrom :SteelPolishing
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty chameo:hasHolder ;
+                               owl:someValuesFrom :ConductiveResin
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty chameo:hasSampleForPreparation ;
+                               owl:someValuesFrom :SteelSample
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty chameo:hasSamplePreparationParameter ;
+                               owl:someValuesFrom emmo:EMMO_50a44256_9dc5_434b_bad4_74a4d9a29989
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty chameo:hasSamplePreparationParameter ;
+                               owl:someValuesFrom emmo:EMMO_affe07e4_e9bc_4852_86c6_69e26182a17f
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty chameo:hasSamplePreparationParameter ;
+                               owl:someValuesFrom emmo:EMMO_d4f7d378_5e3b_468a_baa1_a7e98358cda7
+                             ] ;
              rdfs:label "HotMounting" ;
              skos:prefLabel "HotMounting" ;
              emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "Steel is hot mounted in conductive embedding resin positioning surface along rolling direction. Sample mounted on holder must be resized in order to get a dimension suitable for SEM chamber"@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#NanoindentationForAreaSelection
+:NanoindentationForAreaSelection rdf:type owl:Class ;
+                                 rdfs:subClassOf chameo:Nanoindentation ,
+                                                 chameo:SamplePreparation ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty emmo:EMMO_499e24a5_5072_4c83_8625_fe3f96ae4a8d ;
+                                                   owl:someValuesFrom :EBSDGrainsAnalysis
+                                                 ] ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty chameo:hasSampleForPreparation ;
+                                                   owl:someValuesFrom :SteelSample
+                                                 ] ;
+                                 rdfs:label "NanoindentationForAreaSelection" ;
+                                 skos:prefLabel "NanoindentationForAreaSelection" ;
+                                 emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "Four indentations are made on the sample with a microdurometer tip at the four vertices of the region of interest. These marks are then used to perform EBSD and nanoindentation on the same area and to align the resulting maps."@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#SteelNanoindentation
+:SteelNanoindentation rdf:type owl:Class ;
+                      rdfs:subClassOf chameo:CharacterisationMeasurementProcess ,
+                                      <https://w3id.org/emmo/domain/nanoindentation#EMMO_5ca6e1c1-93e9-5e1a-881b-2c2bd38074b1> ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty emmo:EMMO_499e24a5_5072_4c83_8625_fe3f96ae4a8d ;
+                                        owl:someValuesFrom :EBSDNanoindentationCorrelation
+                                      ] ;
+                      rdfs:label "SteelNanoindentation" ;
+                      skos:prefLabel "SteelNanoindentation" ;
+                      emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "After EBSD analysis, nanoindentation is carried out in EBSD region of interest to determine hardness and elastic modulus of steel."@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#SteelPolishing
+:SteelPolishing rdf:type owl:Class ;
+                rdfs:subClassOf chameo:Polishing ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty emmo:EMMO_499e24a5_5072_4c83_8625_fe3f96ae4a8d ;
+                                  owl:someValuesFrom :ConductivityImprovement
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty chameo:hasSampleForPreparation ;
+                                  owl:someValuesFrom :SteelSample
+                                ] ;
+                rdfs:label "SteelPolishing" ;
+                skos:prefLabel "SteelPolishing" ;
+                emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "The sample is polished with standard grinding papers and colloidal silica 40 nm is used as finisher. The goal is to prepare a polished sample removing as much as possible scratches. Moreover, sample size must have a dimension suitable for SEM chamber." .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#SteelSample
+:SteelSample rdf:type owl:Class ;
+             rdfs:subClassOf chameo:Sample ;
+             rdfs:label "SteelSample" ;
+             skos:prefLabel "SteelSample" ;
+             emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "Steel sample. Includes different types of steel."@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#StruersAbraPol20
+:StruersAbraPol20 rdf:type owl:Class ;
+                  rdfs:subClassOf chameo:SamplePreparationInstrument ;
+                  owl:disjointWith :StruersCitopress25 ;
+                  rdfs:label "StruersAbraPol20" ;
+                  skos:prefLabel "StruersAbraPol20" ;
+                  emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "Struers AbraPol 20 is a machine for grinding and polishing of specimens in specimen holders"@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#StruersCitopress25
+:StruersCitopress25 rdf:type owl:Class ;
+                    rdfs:subClassOf chameo:SamplePreparationInstrument ;
+                    rdfs:label "StruersCitopress25" ;
+                    skos:prefLabel "StruersCitopress25" ;
+                    emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "Struers Citopress-25 hot mounting press"@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#TBC1000Steel
+:TBC1000Steel rdf:type owl:Class ;
+              rdfs:subClassOf :SteelSample ;
+              rdfs:label "TBC1000Steel" ;
+              skos:prefLabel "TBC1000Steel" ;
+              emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "TRIP bainitic matrix steel"@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#TBC1180Steel
+:TBC1180Steel rdf:type owl:Class ;
+              rdfs:subClassOf :SteelSample ;
+              rdfs:label "TBC1180Steel" ;
+              skos:prefLabel "TBC1180Steel" ;
+              emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "TRIP bainitic matrix steel"@en .
+
+
+###  https://w3id.org/emmo/application/advanced-high-strength-steels#TescanFESEM9000
+:TescanFESEM9000 rdf:type owl:Class ;
+                 rdfs:subClassOf chameo:SampleInspectionInstrument ;
+                 rdfs:label "TescanFESEM9000" ;
+                 skos:prefLabel "TescanFESEM9000" ;
+                 emmo:EMMO_967080e5_2f42_4eb2_a3a9_c58143e835f9 "Tescan FESEM 9000 microscope"@en .
 
 
 ###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
